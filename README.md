@@ -4,10 +4,10 @@
 
 This document gives a review about the precision of the following [ESP32-C6 multi sensor (alias Q_sensor)](https://www.tindie.com/products/adz1122/esp32-c6-multi-sensor-co2-voc-imu/) measurements:
 - Temperatures given by the AHT20, BMP280 and SDC40 sensors
-- Humidity given by the AHT20 and SDC40 sensors
+- Humidities given by the AHT20 and SDC40 sensors
 - CO2 given by the SDC40 sensor
 
-It also enlights some problems with the SDC40 and other sensors of the Q_sensor and also focused on adding several DS18B20 temperature probes to the Q_sensor. The code was directly based on the [zigbee one](https://github.com/xyzroe/Q_sensor).
+It enlights some problems with the SDC40 and other sensors of the Q_sensor and also focused on adding several DS18B20 temperature probes to the Q_sensor. The firmare used in these devices was directly based on the [Zigbee code](https://github.com/xyzroe/Q_sensor).
 
 
 ## Material and methodology
@@ -15,14 +15,16 @@ It also enlights some problems with the SDC40 and other sensors of the Q_sensor 
 ### ESP32-C6 multi sensors
 
 5 Q_sensors were ordered:
-- 2 Q_sensors v2.1 on [Tindie](https://www.tindie.com/products/adz1122/esp32-c6-multi-sensor-co2-voc-imu/) with a SDC40 or SDC41 module (no laser marking on the sensor!, see [datasheet][https://sensirion.com/media/documents/48C4B7FB/64C134E7/Sensirion_SCD4x_Datasheet.pdf] page 24) directly soldered on the Q_senor PCB
+- 2 Q_sensors v2.1 on [Tindie](https://www.tindie.com/products/adz1122/esp32-c6-multi-sensor-co2-voc-imu/) with a SDC40 or SDC41 module (**no laser marking on the sensor!**, see [datasheet][https://sensirion.com/media/documents/48C4B7FB/64C134E7/Sensirion_SCD4x_Datasheet.pdf] page 24) directly soldered on the Q_senor PCB
 - 3 Q_sensors v2.2 on [Aliexpress](https://fr.aliexpress.com/item/1005007922381128.html) with laser maked SDC40 module.
 
-**Please note that both Q_sensors v2.1 had some ground connections issues with the PCB that were corrected and one Q_sensor v2.2 had power supply issues on the PCB (brownout detector triggered !)**
+**Please note that both Q_sensors v2.1 had some ground connections issues with the PCB that were corrected and one Q_sensor v2.2 had power supply issues on the PCB (brownout detector triggered and was unusable!)**
 
-All Q_sensors wered modified to add a Onewire bus on GPIO 9 (BOOT) with a pull-up 4.7k resistor in order to connect up to 5 DS18B20, usually with 5m length (max 4x5m & 1x1m). A second onewire bus GPIO 1 on one of the Q_sensor v2.2 was also added in order to increase the number of DS18B20 to max 8 DS18B50 (usually 5-6) with 5m cables because there were too much reading errors with only one bus connecting 5 DS18B20 probes. 
+All Q_sensors wered modified to add a Onewire bus on GPIO 9 (BOOT) (see picture below) with a pull-up 4.7k resistor below the PCB in order to connect up to 5 DS18B20, usually with 5m length (max 4x5m & 1x1m), by using a JST-8PIN connector on Header H6. A second onewire bus GPIO 1 on one of the Q_sensor v2.2 was also added in order to increase the number of DS18B20 to max 8 DS18B50 (usually 5-6) with 5m cables because there were too much reading errors with only one bus connecting 5 DS18B20 probes. 
 
-Please note that the Q_sensor also contains a light sensor (BH1750 lux measurement), a radar for presence detection (BS5820), a VOC sensor (AGS10) and an IMU (QMI8658C) that have not been analyzed.  
+![Q_sensor OneWire](./images/Q_sensor_OneWire.png)
+
+Please note that the Q_sensor also contains a light sensor (BH1750 lux measurement), a radar for presence detection (BS5820), a VOC sensor (AGS10) and an IMU (QMI8658C) that are not analyzed in this review.
 
 ### Other devices
 
@@ -44,12 +46,12 @@ In total, 6 Zigbee devices were used in a 14-day measurement campaign, including
 
 As the following image shows, all devices were placed on a desk in a office room where a person might occasionally be present next to the devices.
 
-[!Experimant pictures](./images/Experiment.jpg)
+![Experimant pictures](./images/Experiment.jpg)
 
 
-All devices were connected to a USB Zigbee coordinator dongle in the same room using [Zigbee2MQTT](https://www.zigbee2mqtt.io/) with a reporting of maximum 10min for each Q_sensor and R_sensor measurement on a installed mqtt server [`mosquitto`](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html), 1h for the LYWSD03MMC device and unknown for the TS0601 air quality sensor (but probably a few second as specified in the Notes of this [link](https://www.zigbee2mqtt.io/devices/TS0601_air_quality_sensor.html#tuya-ts0601_air_quality_sensor)).
+All devices were connected to a USB Zigbee coordinator dongle in the same room using [Zigbee2MQTT](https://www.zigbee2mqtt.io/) with a reporting of maximum 10min for each Q_sensor and R_sensor measurement on a installed mqtt server [`mosquitto`](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html), 1h for the LYWSD03MMC device and unknown for the TS0601 air quality sensor (but probably a few seconds as specified in the `Notes` of this [link](https://www.zigbee2mqtt.io/devices/TS0601_air_quality_sensor.html#tuya-ts0601_air_quality_sensor)).
 
-In order to easily record measurements sent by different devices in a time series [influx2 database](https://docs.influxdata.com/influxdb/v2/), [Home-Assistant](http://home-assistant.io/) was configured to use the same mqtt server as Zigbee2MQTT and correctly configure [Zigbee2MQTT for Home-Assistant](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html). In parallel, Home-Assistant was linked to [an external influx2 database](https://www.home-assistant.io/integrations/influxdb/).
+In order to easily record measurements sent by different devices in a time series [influx2 database](https://docs.influxdata.com/influxdb/v2/), [Home-Assistant](http://home-assistant.io/) was configured to use the same mqtt server as Zigbee2MQTT and  Zigbee2MQTT was also configured [for Home-Assistant](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html). In parallel, Home-Assistant was linked to [an external influx2 database](https://www.home-assistant.io/integrations/influxdb/).
 
 Finaly, to easily analyse the precision of the measurements in the influx2 database, a [grafana](https://grafana.com) dashboard using the influx2 database as source was created. 
 
@@ -58,11 +60,28 @@ Finaly, to easily analyse the precision of the measurements in the influx2 datab
 
 ### Temperature
 
+During the campaign, the temperature variation in the room for all sensors (i.e. max temp minus min temp) was  6° (+/-1°). It seems that all sensors give the same evolution of the room temperature. **Nevertheless, an important bias is present for all temperature sensors of the Q_sensor, more precisily, when you compare to other sensor, the AHT20 has a bias of ~5°C, the SDC40 of ~4°C and the BMP280 of 9°C!**. For the same sensor of each Q_sensor, the range is around 1° for the AHT20 and SDC40 and +/-1.5° for the BMP280. 
+
+The source of this biased temperature measurement might be:
+- Bad sensor batch/uncalibrated sensors
+- Overheating of the sensor when soldered on the PCB
+
+Since the evolution of the temperature seems correct, a constant temperature offset can be removed. 
+
+
 ### Humidity 
+
+The humidity variation in the room for all sensors was around 17%+/-2%. As before, a bias of ~8% (+/3%) of both humidity sensors in the Q_sensors compared to other sensor is present. 
+
+Since the relative humidity depends on the room temperature, this bias is probably linked to the temperature one. 
+
 
 ### CO2
 
-### Remarks
+
+
+
+### Other measurements
 
 
 
