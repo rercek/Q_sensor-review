@@ -82,21 +82,21 @@ As shown in the next figure, the range of the 3 other temperature sensors is aro
 ![Other sensors Temperature Range](./images/Other%20sensors%20Temperature%20Range.png)
 
 
-Since the temperature of other sensors are closed enough, the mean temperature of these sensors will be used as the real room temperature (ground truth). Moreover, in order to decrease the number of sensors to analyse, the mean temperature of each sensor family will be used even if, for the BMP280 one, it is less accurate.
+**Since the temperature of other sensors are closed enough, the mean temperature of these sensors will be used as the real room temperature (ground truth).**
+
+Additionally, in order to reduce the number of sensors to be analyzed, the average temperature of each sensor family will be used, even if, for the BMP280, it is less accurate. The following figures illustrate this analysis using average temperature values.
+
+![Mean temperatures analysis](./images/Mean%20Temperatures.png)
 
 
-
-**Nevertheless, an important bias is present for all temperature sensors of the Q_sensor, more precisily, when you compare to other sensor, the AHT20 has a bias of ~5°C, the SDC40 of ~4°C and the BMP280 of 9°C!**. 
-
-
-
+**An important bias is present for all temperature sensors of the Q_sensor, more precisily, when you compare to other sensor, the AHT20 has a bias (mean/median value) of ~4°C, the SDC40 of ~4°C and the BMP280 of 9°C!**. 
 
 
 The source of this biased temperature measurement might be:
 - Bad sensor batch/uncalibrated sensors
 - Overheating of the sensor when soldered on the PCB
 
-Since the evolution of the temperature seems correct, a constant temperature offset can be removed. 
+Since the evolution of the temperature seems correct, a constant temperature offset can be removed for each sensor family. 
 
 
 ### Humidity 
