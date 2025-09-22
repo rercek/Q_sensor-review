@@ -15,12 +15,12 @@ It enlights some problems with the SDC40 and other sensors of the Q_sensor and a
 ### ESP32-C6 multi sensors
 
 5 Q_sensors were ordered:
-- 2 Q_sensors v2.1 on [Tindie](https://www.tindie.com/products/adz1122/esp32-c6-multi-sensor-co2-voc-imu/) with a SDC40 or SDC41 module (**no laser marking on the sensor!**, see [datasheet][https://sensirion.com/media/documents/48C4B7FB/64C134E7/Sensirion_SCD4x_Datasheet.pdf] page 24) directly soldered on the Q_sensor PCB
+- 2 Q_sensors v2.1 on [Tindie](https://www.tindie.com/products/adz1122/esp32-c6-multi-sensor-co2-voc-imu/) with a SDC40 or SDC41 module (**no laser marking on the sensor!**, see [datasheet](https://sensirion.com/media/documents/48C4B7FB/64C134E7/Sensirion_SCD4x_Datasheet.pdf) page 24) directly soldered on the Q_sensor PCB
 - 3 Q_sensors v2.2 on [Aliexpress](https://fr.aliexpress.com/item/1005007922381128.html), each, with a laser marked SDC40 module.
 
 **Please note that both Q_sensors v2.1 had some ground connections issues with the PCB that were corrected and one Q_sensor v2.2 had power supply issues on the PCB (brownout detector triggered) and was unusable!**
 
-All Q_sensors wered modified to add a Onewire bus on GPIO 9 (BOOT) (see picture below) with a pull-up 4.7k resistor below the PCB in order to connect up to 5 DS18B20, usually with 5m cable length (max 4x5m & 1x1m), by using a JST-8PIN connector on Header H6. A second onewire bus GPIO 1 on one of the Q_sensor v2.2 was also added in order to increase the number of DS18B20 to max 8 DS18B50 (usually 5-6) with 5m cables because there were too much reading errors with only one bus connecting 5 DS18B20 probes. 
+All Q_sensors wered modified to add a Onewire bus on GPIO 9 (BOOT) (see image below) with a  4.7 kΩ pull-up resistor under the PCB. The allows up to 5 DS18B20 temperature sensors to be connected, typically with a 5m cable l(max 4x5m & 1x1m were supported), vai an 8-pin JST connector on the H6 Header. A second Onewire was added on GPIO 1 of one of the Q_sensor v2.2 in order to increase the number of DS18B20s to a maximum of 8 DS18B20s (typically 5-6) with a 5m cable, as reading errors were too numerous with a single bus connecting 5 DS18B20 probes. 
 
 ![Q_sensor OneWire](./images/Q_sensor_OneWire.png)
 
@@ -29,9 +29,9 @@ Please note that the Q_sensor also contains a light sensor (BH1750 lux measureme
 ### Other devices
 
 In order to compare the measurements given by the Q_sensors, 3 other devices were used:
-1. A [Xiaomi LYWSD03MMC with a custom zigbee firmware](https://www.zigbee2mqtt.io/devices/LYWSD03MMC-z.html#xiaomi-lywsd03mmc-z) measuring room temperature and humidy. 
-2. A [TS0601 air quality sensor](https://www.zigbee2mqtt.io/devices/LYWSD03MMC-z.html#xiaomi-lywsd03mmc-z) measuring room temperature, humidity and CO2. This sensor alos gives VOC and Formaldehyd measurements which were not used.
-3. A _DIY_ (Do-It-Yoursel) ESP32-C6, calle *R_sensor*, with a BME280 module for room temperature and humidity and a MH-Z19B for CO2. A HC SR501 PIR detector (for presence detection) and a BH1750 light sensor were also connected to this device but were not used. 
+1. A [Xiaomi LYWSD03MMC with a custom zigbee firmware](https://www.zigbee2mqtt.io/devices/LYWSD03MMC-z.html#xiaomi-lywsd03mmc-z) measuring room temperature and humidy ([SHTC3 sensor](https://sensirion.com/media/documents/643F9C8E/63A5A436/Datasheet_SHTC3.pdf) is used for Humidity & Temperature measurement). 
+2. A [TS0601 air quality sensor](https://www.zigbee2mqtt.io/devices/TS0601_air_quality_sensor.html#tuya-ts0601_air_quality_sensor) measuring room temperature, humidity and CO2. This sensor alos gives VOC and Formaldehyd measurements which were not used.
+3. A _DIY_ (Do-It-Yoursel) ESP32-C6, calle *R_sensor*, with a [BME280](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme280-ds002.pdf) module for room temperature and humidity and a MH-Z19B for CO2. A HC SR501 PIR detector (for presence detection) and a BH1750 light sensor were also connected to this device but were not used. 
 
 
 ### Experimental measurement campaign
@@ -46,11 +46,11 @@ In total, 6 Zigbee devices were used in a 14-day measurement campaign, including
 
 As the following image shows, all devices were placed on a desk in a office room where a person might occasionally be present next to the devices.
 
-![Experimant pictures](./images/Experiment.jpg)
+![Experiment picture](./images/Experiment.jpg)
 
 All devices were connected to a USB Zigbee coordinator dongle in the same room using [Zigbee2MQTT](https://www.zigbee2mqtt.io/) with a reporting of maximum 10min for each Q_sensor and R_sensor measurement on a installed mqtt server [`mosquitto`](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html), max 1h for the LYWSD03MMC device and unknown for the TS0601 air quality sensor (but probably a few seconds as specified in the `Notes` of this [link](https://www.zigbee2mqtt.io/devices/TS0601_air_quality_sensor.html#tuya-ts0601_air_quality_sensor)).
 
-In order to easily record measurements sent by different devices in a time series [influx2 database](https://docs.influxdata.com/influxdb/v2/), [Home-Assistant](http://home-assistant.io/) was configured to use the same mqtt server as Zigbee2MQTT and  Zigbee2MQTT was also configured [for Home-Assistant](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html). In parallel, Home-Assistant was linked to [an external influx2 database](https://www.home-assistant.io/integrations/influxdb/).
+In order to easily record measurements sent by different devices in a time series [influx2 database](https://docs.influxdata.com/influxdb/v2/), [Home-Assistant](http://home-assistant.io/) was configured to use the same mqtt server as Zigbee2MQTT and Zigbee2MQTT was also configured [for Home-Assistant](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html). In parallel, Home-Assistant was linked to [an external influx2 database](https://www.home-assistant.io/integrations/influxdb/).
 
 Finaly, to easily analyse the precision of the measurements in the influx2 database, a [grafana](https://grafana.com) dashboard using the influx2 database as source was created. 
 
@@ -89,7 +89,7 @@ Additionally, in order to reduce the number of sensors to be analyzed, the avera
 ![Mean temperatures analysis](./images/Mean%20Temperatures.png)
 
 
-**An important bias is present for all temperature sensors of the Q_sensor, more precisily, when you compare to other sensor, the AHT20 has a bias (mean/median value) of ~4°C, the SDC40 of ~4°C and the BMP280 of 9°C!**. 
+**An important bias is present for all temperature sensors of the Q_sensor, more precisily, when you compare to other sensors, the AHT20 has a bias (mean/median value) of ~4°C, the SDC40 of ~4°C and the BMP280 of 9°C!**. 
 
 
 The source of this biased temperature measurement might be:
