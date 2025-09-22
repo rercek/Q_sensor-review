@@ -59,7 +59,7 @@ Finaly, to easily analyse the precision of the measurements in the influx2 datab
 
 ### Temperature
 
-During the campaign, the temperature variation in the room for all sensors (i.e. max temp minus min temp) was  6° (+/-1°). As shown in the figures below, all sensors give the same evolution of the room temperature during the experiment. 
+During the campaign, the temperature variation in the room for all sensors (i.e. max temp minus min temp) was  6° (+/-1°). As shown in the figures below, all sensors give the same evolution of the room temperature during the experiment. However, the temperature values ​​are completely different and this difference will be analyzed further. 
 
 ![Q_sensor temperatures](./images/Q_sensor_Temperatures.png)
 
@@ -67,7 +67,7 @@ During the campaign, the temperature variation in the room for all sensors (i.e.
 
 ![Other sensor temperature](./images/Other%20sensors%20Temperatures.png)
 
-For the same temperature sensor, the range is around 1°C (75%) for the AHT20, the SDC40 and the DS18B20 and +/-1.75°C (75%) for the BMP280. Most temperature values ​​within the same sensor family are generally very close with the exception of the BMP280 as shown in the next figures.
+For the same temperature sensor, the range is around 1°C (75%) for the AHT20, the SDC40 and the DS18B20 and +/-1.75°C (75%) for the BMP280. Most temperature values ​​within the same sensor family are generally very close with the exception of the BMP280 as shown in the next figures. 
 
 ![AHT20 Temperature Range](./images/AHT20%20Temperature%20Range.png)
 
@@ -77,7 +77,14 @@ For the same temperature sensor, the range is around 1°C (75%) for the AHT20, t
 
 ![DS18B20 Temperature Range](./images/DS18B20%20Temperature%20Range.png)
 
-For the 3 other temperature sensor, the range is around 1.2°C (75%)
+As shown in the next figure, the range of the 3 other temperature sensors is around 1.2°C (75%) which is in accordance with the accuracy of these devices. 
+
+![Other sensors Temperature Range](./images/Other%20sensors%20Temperature%20Range.png)
+
+
+Since the temperature of other sensors are closed enough, the mean temperature of these sensors will be used as the real room temperature (ground truth). Moreover, in order to decrease the number of sensors to analyse, the mean temperature of each sensor family will be used even if, for the BMP280 one, it is less accurate.
+
+
 
 **Nevertheless, an important bias is present for all temperature sensors of the Q_sensor, more precisily, when you compare to other sensor, the AHT20 has a bias of ~5°C, the SDC40 of ~4°C and the BMP280 of 9°C!**. 
 
