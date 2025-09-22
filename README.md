@@ -101,13 +101,35 @@ Since the evolution of the temperature seems correct, a constant temperature off
 
 ### Humidity 
 
-The humidity variation in the room for all sensors was around 17%+/-2%. As before, a bias of ~8% (+/3%) of both humidity sensors in the Q_sensors compared to other sensor is present. 
+For the analysis of humidity measurements, the same approach as for temperatures will be used. The following figure illustrates the humidity variation for the two Q_sensor humidity sensors (AHT20 and SDC40) and for the other humidity sensors. The humidity variation in the room for all sensors was approximately 17% +/- 2%. Note that this variation is relatively more important because the intrinsic precision of humidity sensors is generally of the order of 3-5%.
 
-Since the relative humidity depends on the room temperature, this bias is probably linked to the temperature one. 
+![Humidity Measurements](./images/Humidity%20measurements.png)
+
+For the same humidity sensor, the range is around 3% (75%) for the AHT20 and the SDC40. Most humidities ​​within the same sensor family are generally close. 
+
+![AHT20 Humidity Range](./images/AHT20%20Humidity%20Range.png)
+
+![SDC40 Humidity Range](./images/SDC40%20Humidity%20Range.png)
+
+As shown in the next figure, the range of the 3 other humiditysensors is around 4% (75%) which is in accordance with the accuracy of these devices.
+
+![Other sensors Humdity Range](./images/Other%20sensors%20Humidty%20Range.png)
+
+**Since the humidity of other sensors are closed enough, the mean humidity of these sensors will be used as the real room humidity (ground truth).**
+
+Additionally, in order to reduce the number of sensors to be analyzed, the average humidity of each sensor family will be used. The following figures illustrate this analysis using average humidity values.
+
+
+![Mean mumidites analysis](./images/Humidities%20offset.png)
+
+**A bias of ~8% (mean/median values) of both humidity sensors in the Q_sensors compared to other sensor is present.**
+
+Since the relative humidity depends on the room temperature, this bias is probably linked to the temperature one which was for these sensors (AHT20 & SDC40) nearly the same (+/-3-4°C). 
 
 
 ### CO2
 
+The CO2 sensor of the Q_sensor is a SDC40
 
 
 
