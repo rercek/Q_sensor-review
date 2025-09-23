@@ -165,4 +165,8 @@ This sensor cannot be trusted.
 
 ## Conlusion
 
+The Q_sensor is, in theory, an excellent multi-sensor air quality device but it is unfortunate that the built-in temperature and humidity sensors are not calibrated/decalibrated. For both measurements, an offset could be applied in the software but it needs more developement and tests. If this problem is linked to the soldering temperature, it could be easy to avoid this issue, by adpating the temperature or by using a module instead of components on the PCB e.g. this [module](https://nl.aliexpress.com/item/1005006825767164.htm) or a [BME280 module](https://nl.aliexpress.com/item/1005009214592901.html) replacing both AHT20 & BMP280.
+
+The SDC40 modules seems to give correct CO2 measurements but it would be better to be sure that the components are original since no laser marking are present on the Q_sensor PCB v2.1.
+
 
