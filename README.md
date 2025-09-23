@@ -129,7 +129,17 @@ Since the relative humidity depends on the room temperature, this bias is probab
 
 ### CO2
 
-The CO2 sensor of the Q_sensor is a SDC40
+The CO2 sensor of the Q_sensor is a SDC40. The Air quality sensor bought on Aliexpress also has a CO2 sensor but it is probably a fake one or more probaly a eCO2 one (see also the first `Notes` of this [link](https://www.zigbee2mqtt.io/devices/TS0601_air_quality_sensor.html#tuya-ts0601_air_quality_sensor)). Regarding the MH-Z19B sensor on the DIY R_sensor, it didn't correctly measure the CO2. This issue might be linked to the library used, a sensor problem or the auto-calibration feature. All CO2 measurements are shown in the figure below.
+
+![CO2 measurements](./images/CO2.png)
+
+
+Finaly, since a good evolution of the CO2 is only present on the SDC40 sensors, it is only possible to compare this evolution between them. The next figure shows that the range between sensor is around 30ppm (75%) which is in accordance with its accuracy (40ppm in the datasheet page )
+
+![SDC40 CO2](./images/SDC40%20CO2.png)
+
+
+The previous figure also clearly shows the presence of a person (or several) in the room. In this case, the evolution of the CO2 values ​​of the sensors differs more.This is easily explained by the fact that the person is very close to the sensors, which causes the CO2 to spread differently around them, with chaotic peaks. The CO2 concentration is not yet uniform in the room. Once the person leaves the room, the CO2 decreases more uniformly.
 
 
 
