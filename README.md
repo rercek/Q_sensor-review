@@ -10,7 +10,7 @@ This document presents a review on the accuracy of the following [ESP32-C6 multi
 It enlights some problems with the SDC40 and other sensors of the Q_sensor and also focused on adding several DS18B20 temperature probes to the Q_sensor. The firmware used in these devices was directly based on [xyzroe's Zigbee code](https://github.com/xyzroe/Q_sensor).
 
 
-__TOC__
+[[_TOC_]]
 
 
 ## Material and methodology
