@@ -158,9 +158,7 @@ This sensor seems to perform better than the radar. However, the PIR was trigger
 
 #### VOC Sensor (AGS10)
 
-Unfortunately, these measurements were not recorded during the experimental campaign because this value was not automatically recognized by Home-Assistant. Nevertheless, by having a look to the VOC values obtained by the 3 Q_sensors, all values were very different e.g. 2 vs 78 vs 118 points!
-
-This sensor cannot be trusted.
+Unfortunately, these measurements were not recorded during the experimental campaign because this value was not automatically recognized by Home-Assistant. Nevertheless, by having a look to the VOC values obtained by the 3 Q_sensors, all values were very different e.g. 2 vs 78 vs 118 points! **This sensor seems to be untrustworthy.**
 
 
 ## Conlusion
