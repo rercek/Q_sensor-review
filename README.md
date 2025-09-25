@@ -127,7 +127,7 @@ Additionally, in order to reduce the number of sensors to be analyzed, the avera
 
 **A bias of ~8% (mean/median values) of both humidity sensors in the Q_sensors compared to other sensor is present.**
 
-Since the relative humidity depends on the room temperature, this bias is probably linked to the temperature one which was for these sensors (AHT20 & SDC40) nearly the same (+/-3-4°C). 
+**Since the relative humidity depends on the room temperature, this bias is probably linked to the temperature one which was for these sensors (AHT20 & SDC40) nearly the same (+/-3-4°C). The [following analysis](./src/analyze.ipynb) seems to prove this hypothesis by computing the absolute humidity ((k)g/m³) from the relative humidity (%) and temperature (K) (based on this [source](https://www.omnicalculator.com/physics/absolute-humidity)) where the mean absolute humidty for AHT20, SDC40 and other sensors family are very close.**
 
 
 ### CO2
