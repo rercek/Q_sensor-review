@@ -32,14 +32,14 @@ Please note that the Q_sensor also contains a light sensor (BH1750 lux measureme
 ### Other devices
 
 In order to compare the measurements given by the Q_sensors, 3 other devices were used:
-1. A [Xiaomi LYWSD03MMC with a custom zigbee firmware](https://www.zigbee2mqtt.io/devices/LYWSD03MMC-z.html#xiaomi-lywsd03mmc-z) measuring room temperature and humidy ([SHTC3 sensor](https://sensirion.com/media/documents/643F9C8E/63A5A436/Datasheet_SHTC3.pdf) is used for Humidity & Temperature measurement). 
+1. A [Xiaomi LYWSD03MMC with a custom zigbee firmware](https://www.zigbee2mqtt.io/devices/LYWSD03MMC-z.html#xiaomi-lywsd03mmc-z) measuring room temperature and humidity (a [SHTC3 sensor](https://sensirion.com/media/documents/643F9C8E/63A5A436/Datasheet_SHTC3.pdf) is used for Humidity & Temperature measurement). 
 2. A [TS0601 air quality sensor](https://www.zigbee2mqtt.io/devices/TS0601_air_quality_sensor.html#tuya-ts0601_air_quality_sensor) measuring room temperature, humidity and CO2. This sensor alos gives VOC and Formaldehyd measurements which were not used.
-3. A _DIY_ (Do-It-Yourself) ESP32-C6, called *R_sensor*, with a [BME280](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme280-ds002.pdf) module for room temperature and humidity and a MH-Z19B for CO2. A HC SR501 PIR detector (for presence detection) and a BH1750 light sensor were also connected to this device but were not used in the analysis. 
+3. A _DIY_ (Do-It-Yourself) ESP32-C6, called *R_sensor*, with a [BME280](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme280-ds002.pdf) module for room temperature and humidity and a MH-Z19B for CO2. A HC-SR501 PIR detector (for presence detection) and a BH1750 light sensor were also connected to this device but were not used in this review. 
 
 
 ### Experimental measurement campaign
 
-In total, 6 Zigbee devices were used in a 14-day measurement campaign, including 3 Q_sensors without their box and the 3 other devices described in the previous section. The devices with their name/Zigbee address is given below:
+In total, 6 Zigbee devices were used in a 14-day measurement campaign, including 3 Q_sensors without their box and the 3 other devices described in the previous section. The devices with their name/Zigbee address are given below:
 1. `0x404ccafffe571d50`: Q_sensor v2.1 without DS18B20 probe
 2. `0x404ccafffe56dcbc`: Q_sensor v2.2 with 1 DS18B20 probe
 3. `0x404ccafffe56dd00`: Q_sensor v2.2 with 2 onewire buses each connecting 4 DS18B20 probes (total 8 probes)
@@ -47,13 +47,13 @@ In total, 6 Zigbee devices were used in a 14-day measurement campaign, including
 5. `0xa4c138901f2c788c`: TS0601 air quality sensor
 6. `0x588c81fffe37b37c`: R_sensor 
 
-As the following image shows, all devices were placed on a desk in a office room where a person might occasionally be present next to the devices.
+As the following image shows, all devices were placed on a desk in an office room where a person might occasionally be present next to the devices.
 
 ![Experiment picture](./images/Experiment.jpg)
 
 All devices were connected to a USB Zigbee coordinator dongle in the same room using [Zigbee2MQTT](https://www.zigbee2mqtt.io/) with a reporting of maximum 10min for each Q_sensor and R_sensor measurement on a installed mqtt server [`mosquitto`](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html), max 1h for the LYWSD03MMC device and unknown for the TS0601 air quality sensor (but probably a few seconds as specified in the `Notes` of this [link](https://www.zigbee2mqtt.io/devices/TS0601_air_quality_sensor.html#tuya-ts0601_air_quality_sensor)).
 
-In order to easily record measurements sent by different devices in a time series [influx2 database](https://docs.influxdata.com/influxdb/v2/), [Home-Assistant](http://home-assistant.io/) was connected to the same mqtt server as Zigbee2MQTT and Zigbee2MQTT was also configured [for Home-Assistant](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html). In parallel, Home-Assistant was linked to [an external influx2 database](https://www.home-assistant.io/integrations/influxdb/) to record all measurements.
+In order to easily record measurements sent by different devices in a time series [influx2 database](https://docs.influxdata.com/influxdb/v2/), [Home-Assistant](http://home-assistant.io/) was connected to the same mqtt server as Zigbee2MQTT and Zigbee2MQTT was also configured for [Home-Assistant](https://www.zigbee2mqtt.io/guide/usage/integrations/home_assistant.html). In parallel, Home-Assistant was linked to [an external influx2 database](https://www.home-assistant.io/integrations/influxdb/) to record all measurements.
 
 Finaly, to easily analyze the precision of the measurements in the influx2 database, a [grafana](https://grafana.com) dashboard using the influx2 database as source was created. 
 
@@ -62,7 +62,7 @@ Finaly, to easily analyze the precision of the measurements in the influx2 datab
 
 ### Temperature
 
-During the campaign, the temperature variation in the room for all sensors (i.e. max temp minus min temp) was  6° (+/-1°). As shown in the figures below, all sensors give the same evolution of the room temperature during the experiment. However, the temperature values ​​are completely different and this difference will be analyzed further. 
+During the campaign, the temperature variation in the room for all sensors (i.e. max temp minus min temp) was 6°C (+/-1°C). As shown in the figures below, all sensors give the same evolution of the room temperature during the experiment. However, the temperature values ​​are completely different and this difference will be analyzed further. 
 
 ![Q_sensor temperatures](./images/Q_sensor_Temperatures.png)
 
@@ -104,7 +104,7 @@ Since the evolution of the temperature seems correct, a constant temperature off
 
 ### Humidity 
 
-For the analysis of humidity measurements, the same approach as for temperatures will be used. The following figure illustrates the humidity variation for the two Q_sensor humidity sensors (AHT20 and SDC40) and for the other humidity sensors. The humidity variation in the room for all sensors was approximately 17% +/- 2%. Note that this variation is relatively more important because the intrinsic precision of humidity sensors is generally of the order of 3-5%.
+For the analysis of humidity measurements, the same approach as for temperatures is used. The following figure illustrates the humidity variation for the two Q_sensor humidity sensors (AHT20 and SDC40) and for the other humidity sensors. The humidity variation in the room for all sensors was approximately 17% +/- 2%. Note that this variation is relatively more important because the intrinsic precision of humidity sensors is generally of the order of 3-5%.
 
 ![Humidity Measurements](./images/Humidity%20measurements.png)
 
@@ -127,7 +127,7 @@ Additionally, in order to reduce the number of sensors to be analyzed, the avera
 
 **A bias of ~8% (mean/median values) of both humidity sensors in the Q_sensors compared to other sensors is present.**
 
-**Since the relative humidity depends on the room temperature, this bias is probably linked to the temperature one which was for these sensors (AHT20 & SDC40) nearly the same (+/- 4°C). The [following analysis](./src/analyze.ipynb) seems to prove this hypothesis by computing the absolute humidity ((k)g/m³) from the relative humidity (%) and temperature (K) (based on this [source](https://www.omnicalculator.com/physics/absolute-humidity)) where the mean absolute humidities of AHT20, SDC40 and other sensors are very close.**
+**Since the relative humidity depends on the room temperature, this bias is probably linked to the temperature one which was, for these sensors (AHT20 & SDC40), nearly the same (+/- 4°C). The [following analysis](./src/analyze.ipynb) seems to prove this hypothesis by computing the absolute humidity ((k)g/m³) from the relative humidity (%) and temperature (K) (based on this [source](https://www.omnicalculator.com/physics/absolute-humidity)) where the mean absolute humidities of AHT20, SDC40 and other sensors are very close.**
 
 
 ### CO2
@@ -153,7 +153,7 @@ The Q_sensor radar continue to trigger even if no one is in the room. Since this
 
 ![Q_sensor with PIR AM312](./images/Q_sensor_PIR.jpg)
 
-This sensor seems to perform better than the radar. However, the PIR was triggered very often at first, even when there was no one in the room, but this behavior has disappeared. Since this type of sensor is very sensitive to power quality, these false triggers could be related to noise on the power line (3.3 V). Further investigation should be done. Another solution would be to use an HC SR501 PIR sensor which integrates a power drop out from 5V to 3.3V but the 5V line from the USB is not available on the PCB to test this solution. 
+This sensor seems to perform better than the radar. However, the PIR was triggered very often at first, even when there was no one in the room, but this behavior has disappeared. Since this type of sensor is very sensitive to power quality, these false triggers could be related to noise on the power line (3.3 V). Further investigation should be done. Another solution would be to use an HC-SR501 PIR sensor which integrates a power drop out from 5V to 3.3V but the 5V line from the USB is not available on a header of the PCB to test this solution. 
 
 
 #### VOC Sensor (AGS10)
@@ -163,8 +163,8 @@ Unfortunately, these measurements were not recorded in the influx2 database duri
 
 ## Conlusion
 
-The Q_sensor is, in theory, an excellent air quality device but it is unfortunate that the built-in temperature and humidity sensors are not calibrated/decalibrated. For the temperature measurement, an offset could be applied in the software but it must be calibrated. The actual relative humidity could be obtained from the absolute humidity calculated from the measured temperature and humidiy. But, if these temperature offsets are linked to the soldering temperature, it could be easy to avoid this issue, by adpating the temperature or by using a module instead of components on the PCB e.g. this [module](https://nl.aliexpress.com/item/1005006825767164.htm) or a [BME280 module](https://nl.aliexpress.com/item/1005009214592901.html) replacing both AHT20 & BMP280 sensors.
+**The Q_sensor is, in theory, an excellent air quality device but it is unfortunate that the built-in temperature and humidity sensors are not calibrated/decalibrated**. For the temperature measurement, an offset could be applied in the software but it must be calibrated. The actual relative humidity could be obtained from the absolute humidity calculated from the measured temperature and humidiy. But, if these temperature offsets are linked to the soldering temperature, it could be easy to avoid this issue, by adpating the temperature or by using a module instead of components on the PCB e.g. this [module](https://nl.aliexpress.com/item/1005006825767164.htm) or a [BME280 module](https://nl.aliexpress.com/item/1005009214592901.html) replacing both AHT20 & BMP280 sensors.
 
-The SDC40 modules seems to give correct CO2 measurements but it would be better to be sure that the components are original since no laser marking are present on the Q_sensor PCB v2.1 and the laser marking on other SDC40 was not checked to verify it was an original one.
+T**he SDC40 modules seems to give correct CO2 measurements** but it would be better to be sure that the components are original since no laser marking are present on the Q_sensor PCB v2.1 and the laser marking on other SDC40 was not checked to verify it was an original one.
 
 
