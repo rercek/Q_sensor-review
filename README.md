@@ -3,9 +3,9 @@
 ## Introduction
 
 This readme presents a review on the accuracy of the following [ESP32-C6 multi sensor (alias Q_sensor)](https://www.tindie.com/products/adz1122/esp32-c6-multi-sensor-co2-voc-imu/) measurements:
-- Temperatures given by the AHT20, BMP280 and SDC40 sensors
-- Humidities given by the AHT20 and SDC40 sensors
-- CO2 given by the SDC40 sensor
+- Temperatures given by the AHT20, BMP280 and SDC40 sensors.
+- Relative humidities given by the AHT20 and SDC40 sensors.
+- CO2 given by the SDC40 sensor.
 
 It enlights some problems with the SDC40 and other sensors of the Q_sensor and also focused on adding several DS18B20 temperature probes to the Q_sensor. The firmware used in these devices was directly based on [xyzroe's Zigbee code](https://github.com/xyzroe/Q_sensor).
 
@@ -80,7 +80,7 @@ For the same temperature sensor, the range is around 1°C (75%) for the AHT20, t
 
 ![DS18B20 Temperature Range](./images/DS18B20%20Temperature%20Range.png)
 
-As shown in the next figure, the range of the 3 other temperature sensors is around 1.2°C (75%) which is in accordance with the accuracy of these devices. 
+As shown in the next figure, the range of the 3 other temperature sensors is around 1.2°C (75%) which is in accordance with the accuracy of these devices (see description given for these [devices or sensors](#other-devices)). 
 
 ![Other sensors Temperature Range](./images/Other%20sensors%20Temperature%20Range.png)
 
@@ -96,8 +96,8 @@ Additionally, in order to reduce the number of sensors to be analyzed, the avera
 
 
 The source of this biased temperature measurement might be:
-- Bad sensor batch/uncalibrated sensors
-- Overheating of the sensor when directly soldered on the PCB
+- Bad sensor batch/uncalibrated sensors.
+- Overheating of the sensor when directly soldered on the PCB.
 
 Since the evolution of the temperature seems correct, a constant temperature offset can be removed for each sensor family but a good sensor calibration would be better. 
 
@@ -114,14 +114,13 @@ For the same humidity sensor, the range is around 3% (75%) for the AHT20 and the
 
 ![SDC40 Humidity Range](./images/SDC40%20Humidity%20Range.png)
 
-As shown in the next figure, the range of the 3 other humidity sensors is around 4% (75%) which is in accordance with the accuracy of these devices.
+As shown in the next figure, the range of the 3 other humidity sensors is around 4% (75%) which is in accordance with the accuracy of these devices (see the description of these [devices or sensors](#other-devices)).
 
 ![Other sensors Humdity Range](./images/Other%20sensors%20Humidty%20Range.png)
 
 **Since the humidities of other sensors are closed enough, the mean humidity of these sensors will be used as the real room humidity (ground truth).**
 
 Additionally, in order to reduce the number of sensors to be analyzed, the average humidity of each sensor family will be used. The following figures illustrate this analysis using average humidity values.
-
 
 ![Mean mumidites analysis](./images/Humidities%20offset.png)
 
